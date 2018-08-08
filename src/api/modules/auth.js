@@ -45,7 +45,7 @@ export const decodeTokenGraphQL = () => (req, res, next) => {
   if (req.query && req.query.hasOwnProperty('access_token')) {
     req.headers.authorization = 'Bearer ' + req.query.access_token
   }
-
+console.log('decodeTokenGqL')
   // this will call next if token is valid
   // and send error if its not. It will attached
   // the decoded token to req.user
