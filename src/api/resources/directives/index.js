@@ -1,5 +1,5 @@
 import * as directivesGQL from './directives.graphql'
-import { directiveResolvers } from './directives.resolvers'
+import { directiveResolvers,schemaDirectives } from './directives.resolvers'
 
 
-export { directivesGQL,directiveResolvers }
+export { directivesGQL,directiveResolvers,schemaDirectives }

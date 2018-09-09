@@ -1,0 +1,26 @@
+type Role {
+  id: ID!
+  type: String!
+  name: String!
+}
+
+input UpdatedRole {
+  id: ID!
+  type: String
+  name: String
+}
+
+input NewRole {
+  type: String
+  name: String
+}
+
+extend type Query {
+  Role(id: ID!): Role!
+  allRoles: [Role]!
+}
+
+extend type Mutation {
+  newRole(input: NewRole!): Role!
+  updateRole(input: UpdatedRole!): Role!
+}

@@ -10,8 +10,12 @@ export const schema = {
   password: {
     required: true,
     type: String,
-    select: true
-  }
+    select: false
+  },
+  roles: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'role'
+  }]
 }
 
 const userSchema = new mongoose.Schema(schema, {timestamps: true})
@@ -41,3 +45,4 @@ userSchema.pre('save', function(next) {
   })
 
 export const User = mongoose.model('user', userSchema)
+export const getObjectId = (id)=> mongoose.Types.ObjectId(id)

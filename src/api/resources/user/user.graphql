@@ -3,9 +3,11 @@
 type User {
   id: ID!
   username: String!
+  roles: [Role]
   createdAt: String!
   updatedAt: String!
 }
+
 
 type Signin {
 id: ID!
@@ -19,14 +21,20 @@ password: String!
 }
 
 input UpdatedUser {
-  username: String!
+  id: ID!
+  username: String
+  roles:[ID!]
+
 }
 
 type Query {
-  getMe: User!
+  getMe: User! @isAuthenticated
+  allUsers: [User]!
 }
 
 type Mutation {
-  signin(input: SigninCredentials!): Signin! @isAuthenticated
+  signin(input: SigninCredentials!): Signin!
   signup(input: SigninCredentials!): Signin!
+  removeUser(id:ID!): User
+  updateUser(input:UpdatedUser):User
 }

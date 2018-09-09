@@ -2,7 +2,9 @@ import { makeExecutableSchema } from 'graphql-tools'
 import { userType, userResolvers } from './resources/user'
 import { songType, songResolvers } from './resources/song'
 import { playlistType, playlistResolvers } from './resources/playlist'
-import { directivesGQL, directiveResolvers } from './resources/directives'
+import { roleType, roleResolvers } from './resources/role'
+
+import { directivesGQL, directiveResolvers,schemaDirectives } from './resources/directives'
 import merge from 'lodash.merge'
 import { graphqlExpress } from 'apollo-server-express'
 
@@ -18,6 +20,7 @@ const schema = makeExecutableSchema({
     baseSchema,
     directivesGQL,
     userType,
+    roleType,
     songType,
     playlistType
     
@@ -25,11 +28,12 @@ const schema = makeExecutableSchema({
   resolvers: merge(
     {},
     userResolvers,
+    roleResolvers,
     songResolvers,
     playlistResolvers
     
   ),
-  directiveResolvers: directiveResolvers
+  schemaDirectives: schemaDirectives
 })
 
 
