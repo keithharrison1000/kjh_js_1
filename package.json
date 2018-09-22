@@ -18,6 +18,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "colors": "^1.2.1",
+    "devcert-with-localhost": "^0.3.3",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
     "graphql": "^0.13.2",
