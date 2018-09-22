@@ -66,7 +66,7 @@ export const getFreshUserGraphQL = () => (req, res, next) => {
 
   }
 
-  return User.findById(req.user.id)
+  return User.findById(req.user.id).select("+password").populate("roles")
     .then(function(user) {
       if (!user) {
         delete req.user
@@ -74,6 +74,7 @@ export const getFreshUserGraphQL = () => (req, res, next) => {
       } else {
         // update req.user with fresh user from
         // stale token data
+        //console.log(user)
         req.authorized = true
         req.user = user
         //res.send(user)
@@ -155,10 +156,11 @@ export const createUserGraphQL = (input) => {
     .catch(err => err)
 }
 
-export const verifyUserGraphQL = (input) => {
+export const verifyUserGraphQL1 = (input) => {
 
   const username = input.username
   const password = input.password
+  console.log(username)
   
 
   // if no username or password then send
@@ -170,21 +172,23 @@ export const verifyUserGraphQL = (input) => {
   // look user up in the DB so we can check
   // if the passwords match for the username
 
-  return User.findOne({username: username})
+  return User.findOne({username: username}).select('id + username + password')
   .then(function(user) {
     if (!user) {
       throw new Error('No user with the given username')
     } else {
+      console.log(user)
       // checking the passowords here
       if (!user.authenticate(password)) {
         throw new Error('Wrong password')
       } else {
+        console.log(user)
         // if everything is good,
         // then attach to req.user
         // and call next so the controller
         // can sign a token from the req.user._id
         return {id:user.id,username:user.username,token:signToken(user.id)}
-  
+        //return {id:1,username:'kjh',token:'123'}
        
       }
     }
@@ -193,6 +197,49 @@ export const verifyUserGraphQL = (input) => {
   //return User.findOne({username: username}).then(() => {return {id:'1',username:'kh',token:'1234'} })
   
 }
+
+export const verifyUserGraphQL = async (input) => {
+
+  const username = input.username
+  const password = input.password
+  console.log(username)
+  
+
+  // if no username or password then send
+  if (!username || !password) {
+    throw new Error('You need a username and password')
+    return
+  }
+
+  // look user up in the DB so we can check
+  // if the passwords match for the username
+
+  const user = await User.findOne({username: username}).select('id + username + password')
+  
+    if (!user) {
+      throw new Error('No user with the given username')
+      return
+    } 
+
+    const pwdTest = await user.authenticate(password)
+    
+    if (!pwdTest) {
+        throw new Error('Wrong password')
+        return
+    }
+        console.log(user)
+        // if everything is good,
+        // then attach to req.user
+        // and call next so the controller
+        // can sign a token from the req.user._id
+        return {id:user.id,username:user.username,token:signToken(user.id)}
+        //return {id:1,username:'kjh',token:'123'}
+       
+      
+  }
+  
+  
+
 
 
 export const verifyUser = (req, res, next) => {

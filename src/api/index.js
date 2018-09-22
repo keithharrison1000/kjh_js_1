@@ -1,2 +1,2 @@
 export { restRouter } from './restRouter'
-export { graphQLRouter } from './graphQLRouter'
+export { graphQLServer } from './graphQLRouter'

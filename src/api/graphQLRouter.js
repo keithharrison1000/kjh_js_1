@@ -6,7 +6,7 @@ import { roleType, roleResolvers } from './resources/role'
 
 import { directivesGQL, directiveResolvers,schemaDirectives } from './resources/directives'
 import merge from 'lodash.merge'
-import { graphqlExpress } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-express'
 
 const baseSchema = `
   schema {
@@ -37,10 +37,9 @@ const schema = makeExecutableSchema({
 })
 
 
-export const graphQLRouter = graphqlExpress((req) => ({
+export const graphQLServer = new ApolloServer({
   schema,
-  context: {
-    req,
-    user: req.user
-  }
-}))
+  context: ({req}) => { return { req, user:req.user }}
+  
+})
+

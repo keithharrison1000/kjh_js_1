@@ -1,2 +1,2 @@
 directive @isAuthenticated on QUERY | FIELD | MUTATION
-directive @hasRole(roles: [String]) on QUERY | FIELD | MUTATION
+directive @hasRole(roles: [NewRole]) on QUERY | FIELD | MUTATION

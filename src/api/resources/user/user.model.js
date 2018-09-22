@@ -18,11 +18,25 @@ export const schema = {
   }]
 }
 
+
+
 const userSchema = new mongoose.Schema(schema, {timestamps: true})
+
+if (!userSchema.options.toObject) userSchema.options.toObject = {};
+userSchema.options.toObject.transform = function (doc, ret, options) {
+  // remove the _id of every document before returning the result
+  delete ret.password;
+  ret.id = ret._id
+  delete ret._id
+  return ret;
+}
 
 userSchema.methods = {
   authenticate(plainTextPassword) {
-    return bcrypt.compareSync(plainTextPassword, this.password)
+    //console.log(this.password)
+   
+  return bcrypt.compare(plainTextPassword, this.password)
+  
   },
   hashPassword(plaintTextPassword) {
     if (!plaintTextPassword) {
@@ -36,13 +50,21 @@ userSchema.methods = {
 
 userSchema.pre('save', function(next) {
   const user = this
-  
+  console.log('saving...')
     if (user.isModified('password')) {
      user.password = user.hashPassword(user.password)
     }
   
   next()
   })
+
+
+  userSchema.pre('findOneAndUpdate', function(next) {
+    
+    console.log(this._update.roles)
+    
+    next()
+    })
 
 export const User = mongoose.model('user', userSchema)
 export const getObjectId = (id)=> mongoose.Types.ObjectId(id)
