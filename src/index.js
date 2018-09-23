@@ -7,7 +7,7 @@ console.log(config.k);
 
 
 getDevelopmentCertificate('my-app', { installCertutil: true }).then((ssl) => {
-  console.log('ssl')
+  console.log(ssl)
   const server = https.createServer(ssl, app);
 
 

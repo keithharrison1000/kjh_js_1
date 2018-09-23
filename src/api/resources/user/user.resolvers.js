@@ -4,7 +4,7 @@ import { verifyUserGraphQL, createUserGraphQL } from '../../modules/auth';
 
 const getMe = (_, __, ctx) => {
   //console.log(ctx.req.authorized)
-  return ctx.user.toObject()
+  return ctx.user
 }
 
 const changePassword = async (_, {input}, ctx) => {
