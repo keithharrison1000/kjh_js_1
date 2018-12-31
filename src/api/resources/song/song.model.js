@@ -6,11 +6,7 @@ export const schema = {
     required: [true, 'Song must have a title']
   },
 
-  url: {
-    type: String,
-    unique: true,
-    required: [true, 'Song must have a url']
-  },
+  url: String,
 
   album: String,
 
@@ -27,6 +23,12 @@ export const schema = {
     type: Boolean,
     required: true,
     default: false
+  },
+
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+
   }
 }
 

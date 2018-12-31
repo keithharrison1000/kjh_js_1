@@ -39,6 +39,7 @@ const schema = makeExecutableSchema({
 
 export const graphQLServer = new ApolloServer({
   schema,
+  playground:{settings: {'editor.theme': 'light','editor.cursorShape':'line'}},
   context: ({req}) => { return { req, user:req.user }}
   
 })

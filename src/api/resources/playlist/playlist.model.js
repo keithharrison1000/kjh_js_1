@@ -15,6 +15,12 @@ export const schema = {
     type: Boolean,
     required: true,
     default: false
+  },
+
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+
   }
 }
 

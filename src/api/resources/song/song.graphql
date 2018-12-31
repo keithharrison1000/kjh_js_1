@@ -1,14 +1,26 @@
 type Song {
   id: ID!
+  user:User!
   title: String!
-  url: String!
+  url: String
   album: String
   artist: String
-  rating: Int!
+  rating: Int
   favorite: Boolean!
 }
 
 input UpdatedSong {
+  id: ID!
+  user:ID!
+  title: String
+  url: String
+  album: String
+  artist: String
+  rating: Int
+  favorite: Boolean
+}
+
+input UpdatedMySong {
   id: ID!
   title: String
   url: String
@@ -19,7 +31,17 @@ input UpdatedSong {
 }
 
 input NewSong {
-  title: String
+  user:ID!
+  title: String!
+  url: String
+  album: String
+  artist: String
+  rating: Int
+  favorite: Boolean
+}
+
+input NewMySong {
+  title: String!
   url: String
   album: String
   artist: String
@@ -30,9 +52,12 @@ input NewSong {
 extend type Query {
   Song(id: ID!): Song!
   allSongs: [Song]!
+  allMySongs: [Song]!
 }
 
 extend type Mutation {
   newSong(input: NewSong!): Song!
+  newMySong(input: NewMySong!): Song!
   updateSong(input: UpdatedSong!): Song!
+  updateMySong(input: UpdatedMySong!): Song!
 }
